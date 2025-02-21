@@ -83,7 +83,7 @@ This ensures that essential information is readily available in high-risk scenar
 1. Clone the repository:
     
     ```bash
-    git clone https://github.com/yeswanth49/scantosave.git
+    git clone (https://github.com/Parshuram02/Scan-To-Save.git)
     cd scantosave
     ```
     
