@@ -12,19 +12,12 @@
         <div class="container mx-auto px-6 py-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <span class="text-2xl font-bold">safe<span class="text-yellow-300">LINK</span></span>
+                    <span class="text-2xl font-bold">Scan-To-<span class="text-yellow-300">Save</span></span>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#home" class="hover:text-yellow-300 transition">Home</a>
                     <!-- Dropdown Container -->
                     <div class="relative group">
-                        <button class="hover:text-yellow-300 transition flex items-center" 
-                                onclick="toggleDropdown()">
-                            Generate safeLINK
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
                         <!-- Dropdown Menu -->
                         <div id="dropdown-menu" 
                              class="absolute hidden bg-white text-gray-800 mt-2 py-2 w-48 rounded-lg shadow-xl">
@@ -76,29 +69,19 @@
                 Providing quick access to emergency contacts through QR codes and NFC technology
             </p>
             <div class="flex justify-center gap-4">
-                <button class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition">
+                <button class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold border-2 border-blue-600 hover:bg-blue-50 transition">
+                    <a href="{{ url_for('scanner') }}">Change Details</a>
+                </button>
+                <button class="bg-blue-600 text-white px-8 py-3 rounded-full  font-semibold hover:bg-blue-700 transition">
                     <a href="{{ url_for('select_template', template_name='template1') }}" >Create QR</a>
                 </button>
                 <button class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold border-2 border-blue-600 hover:bg-blue-50 transition">
-                   <a href="#whatis">Learn More</a>
+                   <a href="https://www.nhs.uk/conditions/first-aid/after-an-accident/#:~:text=The%203%20priorities%20when%20dealing,Circulation">First Aid ABC</a>
                 </button>
             </div>
         </div>
     </header>
 
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center text-blue-900 mb-8" id="whatis">What is safeLINK?</h2>
-            <p class="text-gray-600">safeLINK is an innovative project</p>
-            <p class="text-gray-600">safel INK is an innovative emergency contact system that provides quick and easy access to a person's emergency contact information in critical situations. To ensure that bystanders or first responders can instantly access important contact details, especially during medical emergencies or accidents, through QR codes 
-
-            <br>
-            <br>
-            <p class="text-gray-600">SafeLINK is a web-based application designed to create and manage user-specific QR codes that link to personal details in a secure and organized manner. Users can select a predefined HTML template, enter essential details like their name, phone number, and blood group, and generate a unique QR code. This QR code points to a URL where the details are displayed, ensuring quick and easy access to the information.
-
-SafeLINK is particularly useful for scenarios like emergency identification, sharing contact details, or simplifying access to personal information. Additionally, it offers features like password protection and the ability to modify stored details, ensuring both flexibility and security for users.
-        </div>
-    </section>
 
     <!-- How It Works Sections -->
     <section id="qr-code" class="py-16">
@@ -160,24 +143,16 @@ SafeLINK is particularly useful for scenarios like emergency identification, sha
         <div class="container mx-auto px-6 py-8">
             <div class="grid md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="text-xl font-bold mb-4">safe<span class="text-yellow-300">LINK</span></h3>
+                    <h3 class="text-xl font-bold mb-4">Scan-To<span class="text-yellow-300">-SAVE</span></h3>
                     <p class="text-blue-200">Making emergency contact information accessible when it matters most.</p>
                 </div>
                 <div>
-                    <h4 class="font-semibold mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-blue-200 hover:text-white">Home</a></li>
-                        <li><a href="{{ url_for('select_template', template_name='template1') }}" class="text-blue-200 hover:text-white">Vehicles</a></li>
-                        <li><a href="{{ url_for('select_template', template_name='template1') }}" class="text-blue-200 hover:text-white">Individuals</a></li>
-                    </ul>
-                </div>
-                <div>
                     <h4 class="font-semibold mb-4">Contact Us</h4>
-                    <p class="text-blue-200">Email: work.pecup@gmail.com</p>
+                    <p class="text-blue-200">Email: Prashant24816gp@gmail.com</p>
                 </div>
             </div>
             <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-200">
-                <p>&copy; 2024 Yeswanth Madasu. All rights reserved.</p>
+                <p>&copy; 2025 Team CodeX. </p>
             </div>
         </div>
     </footer>
