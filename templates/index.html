@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan-To-Save - Emergency Contact Solution</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold">Scan-To-<span class="text-yellow-300">Save</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="hover:text-yellow-300 transition">Home</a>
+                    <!-- Dropdown Container -->
+                    <div class="relative group">
+                        <!-- Dropdown Menu -->
+                        <div id="dropdown-menu" 
+                             class="absolute hidden bg-white text-gray-800 mt-2 py-2 w-48 rounded-lg shadow-xl">
+                            <a href="{{ url_for('select_template', template_name='template1') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-600">Vehicles</a>
+                            <a href="{{ url_for('select_template', template_name='template1') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-600">Individuals</a>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('scanner') }}" class="hover:text-yellow-300 transition">Change Details</a>
+                    <a href="mailto:work.pecup@gmail.com" class="hover:text-yellow-300 transition">Contact</a>
+                </div>
+                <button class="bg-yellow-400 text-blue-900 px-6 py-2 rounded-full font-semibold hover:bg-yellow-300 transition">
+                    <a href="{{ url_for('select_template', template_name='template1') }}" >Get Started</a>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Add this script for dropdown functionality -->
+    <script>
+        let dropdownVisible = false;
+        const dropdown = document.getElementById('dropdown-menu');
+
+        function toggleDropdown() {
+            dropdownVisible = !dropdownVisible;
+            if (dropdownVisible) {
+                dropdown.classList.remove('hidden');
+            } else {
+                dropdown.classList.add('hidden');
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInsideDropdown = event.target.closest('.group');
+            if (!isClickInsideDropdown && dropdownVisible) {
+                dropdownVisible = false;
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
+
+    <!-- Hero Section -->
+    <header class="bg-blue-50 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-blue-900 mb-4">
+                Emergency Contacts
+            </h1>
+            <p class="text-xl text-gray-600 mb-8">
+                Providing quick access to emergency contacts through QR codes and NFC technology
+            </p>
+            <div class="flex justify-center gap-4">
+                <button class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold border-2 border-blue-600 hover:bg-blue-50 transition">
+                    <a href="{{ url_for('scanner') }}">Change Details</a>
+                </button>
+                <button class="bg-blue-600 text-white px-8 py-3 rounded-full  font-semibold hover:bg-blue-700 transition">
+                    <a href="{{ url_for('select_template', template_name='template1') }}" >Create QR</a>
+                </button>
+                <button class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold border-2 border-blue-600 hover:bg-blue-50 transition">
+                   <a href="https://www.nhs.uk/conditions/first-aid/after-an-accident/#:~:text=The%203%20priorities%20when%20dealing,Circulation">First Aid ABC</a>
+                </button>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- How It Works Sections -->
+    <section id="qr-code" class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-12">QR Code Generation</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                    <div class="text-4xl text-blue-600 mb-4">1</div>
+                    <h3 class="text-xl font-semibold mb-4">Enter Information</h3>
+                    <p class="text-gray-600">Input your emergency contacts and important details.</p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                    <div class="text-4xl text-blue-600 mb-4">2</div>
+                    <h3 class="text-xl font-semibold mb-4">Generate Code</h3>
+                    <p class="text-gray-600">Create your unique QR code instantly.</p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                    <div class="text-4xl text-blue-600 mb-4">3</div>
+                    <h3 class="text-xl font-semibold mb-4">Download & Print</h3>
+                    <p class="text-gray-600">Get your QR code ready for use.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-12">Key Features</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="flex items-start space-x-4">
+                    <div class="bg-blue-600 p-2 rounded-full">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Instant Access</h3>
+                        <p class="text-gray-600">Quick access to emergency contacts during critical situations.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="bg-blue-600 p-2 rounded-full">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Secure Storage</h3>
+                        <p class="text-gray-600">Your information is encrypted and stored securely.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white mt-auto">
+        <div class="container mx-auto px-6 py-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Scan-To<span class="text-yellow-300">-SAVE</span></h3>
+                    <p class="text-blue-200">Making emergency contact information accessible when it matters most.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contact Us</h4>
+                    <p class="text-blue-200">Email: Prashant24816gp@gmail.com</p>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-200">
+                <p>&copy; 2025 Team CodeX. </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Add the Service Worker Registration Script before closing body tag -->
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/service-worker.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+
+
+
+</body>
+</html>

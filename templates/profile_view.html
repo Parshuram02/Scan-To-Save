@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan-To-Save - Profile View</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #F0F7FF;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation Styles */
+        .nav {
+            background-color: #2563EB;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .brand-highlight {
+            color: #FDE047;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #FDE047;
+        }
+
+        /* Main Content Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #1E3A8A;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Profile Info Styles */
+        .profile-section {
+            border-bottom: 1px solid #E5E7EB;
+            padding: 1rem 0;
+        }
+
+        .profile-section:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            font-size: 0.875rem;
+            color: #6B7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-value {
+            font-size: 1.125rem;
+            color: #111827;
+        }
+
+        /* Button Styles */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .button {
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+        }
+
+        .button-primary {
+            background-color: #2563EB;
+            color: white;
+        }
+
+        .button-primary:hover {
+            background-color: #1E40AF;
+        }
+
+        .button-secondary {
+            background-color: white;
+            color: #2563EB;
+            border: 2px solid #2563EB;
+        }
+
+        .button-secondary:hover {
+            background-color: #F0F7FF;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #1E3A8A;
+            color: #BFDBFE;
+            padding: 2rem 0;
+            margin-top: auto;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="brand">Scan-To<span class="brand-highlight">-Save</span></div>
+            <a href="{{ url_for('index') }}" class="nav-link">Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <h1 class="title">Profile Details</h1>
+            
+            <div class="profile-section">
+                <h2 class="profile-label">Name</h2>
+                <p class="profile-value">{{ profile.name }}</p>
+            </div>
+
+            <div class="profile-section">
+                <h2 class="profile-label">Phone</h2>
+                <p class="profile-value">{{ profile.phone }}</p>
+            </div>
+
+            <div class="profile-section">
+                <h2 class="profile-label">Blood Group</h2>
+                <p class="profile-value">{{ profile.blood_group }}</p>
+            </div>
+            <div class="profile-section">
+                <h2 class="profile-label">Emergency Contacts
+                </h2>
+                <p class="profile-value">{{ profile.emergency_contact }}</p>
+            </div>
+            <div class="profile-section">
+                <h2 class="profile-label">Medical Conditions
+                </h2>
+                <p class="profile-value">{{ profile.medical_conditions }}</p>
+            </div>
+            <div class="profile-section">
+                <h2 class="profile-label">Allergies
+                </h2>
+                <p class="profile-value">{{ profile.allergies }}</p>
+            </div>
+            <div class="profile-section">
+                <h2 class="profile-label">Current Medications
+                </h2>
+                <p class="profile-value">{{ profile.medications }}</p>
+            </div>
+
+            <div class="button-group">
+                    <button onclick="sendEmergencyAlert()" class="button button-primary">Send Emergency Alert</button>
+                </a>
+                
+            </div>
+            <!-- Emergency Button -->
+            <div style="margin-top: 1rem;">
+                <button class="button button-primary" style="background-color: red;" onclick="findNearbyHospitals()">
+                    🚑 Emergency - Find Nearby Hospitals
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Team CodeX.</p>
+        </div>
+    </footer>
+
+    <script>
+        function callEmergencyContact() {
+            var contact = "{{ profile.emergency_contact }}";
+            if (contact) {
+                window.location.href = "tel:+91" + contact;
+            } else {
+                alert("Emergency contact not available.");
+            }
+        }
+        function findNearbyHospitals() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                var googleMapsUrl = `https://www.google.com/maps/search/hospitals/@${lat},${lon},14z`;
+                window.open(googleMapsUrl, '_blank');
+            }, function(error) {
+                alert("Location access denied or unavailable. Please enable location services.");
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    </script>
+    <!-- <h1>Emergency Live Location</h1>
+    <button onclick="sendEmergencyAlert()">🚨 Send Emergency Alert</button> -->
+    
+    <script>
+        function sendEmergencyAlert() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var contact = "{{ profile.emergency_contact }}";
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    const emergencyContact = "+91" + contact; // Replace with actual emergency contact
+    
+                    fetch("/send_emergency", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ latitude, longitude, emergency_contact: emergencyContact }),
+                    })
+                    .then(response => response.json())
+                    .then(data => alert(data.message || data.error))
+                    .catch(error => console.error("Error:", error));
+                }, function(error) {
+                    alert("Error getting location: " + error.message);
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+</body>
+</html>

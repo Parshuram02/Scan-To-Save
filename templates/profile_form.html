@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan-To-Save - Create Profile</title>
+    <style>
+        /* Reset and base styles */
+        body {
+            background-color: #f9fafb;
+            min-height: 100vh;
+            margin: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        /* Navigation Styles */
+        .nav {
+            background-color: #2563EB;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .brand-highlight {
+            color: #FDE047;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #FDE047;
+        }
+
+        /* Container styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Form container */
+        .form-container {
+            max-width: 42rem;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        /* Heading */
+        h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Form group */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Labels */
+        label {
+            display: block;
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Input fields */
+        input[type="text"],
+        input[type="tel"],
+        input[type="password"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            outline: none;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        /* Submit button */
+        .submit-button {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1e3a8a;
+            color: white;
+            margin-top: 4rem;
+            padding: 2rem 0;
+        }
+
+        footer p {
+            text-align: center;
+            color: #bfdbfe;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="brand">Scan-To<span class="brand-highlight">-Save</span></div>
+            <a href="{{ url_for('index') }}" class="nav-link">Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <!-- Form Container -->
+    <div class="container">
+        <div class="form-container">
+            <h1>Create Your Profile</h1>
+
+            <form action="{{ url_for('generate_profile') }}" method="POST">
+                <input type="hidden" name="template" value="{{ template }}">
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="blood_group">Blood Group</label>
+                    <select id="blood_group" name="blood_group" required>
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password (for viewing sensitive info)</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="emergency_contact">Emergency Contact</label>
+                    <input type="text" id="emergency_contact" name="emergency_contact">
+                </div>
+
+                <div class="form-group">
+                    <label for="medical_conditions">Medical Conditions</label>
+                    <textarea id="medical_conditions" name="medical_conditions" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="allergies">Allergies</label>
+                    <textarea id="allergies" name="allergies" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="medications">Current Medications</label>
+                    <textarea id="medications" name="medications" rows="3"></textarea>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="submit-button">
+                        Generate QR Code
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy;2025 Team Codex. </p>
+        </div>
+    </footer>
+</body>
+</html>

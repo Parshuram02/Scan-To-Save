@@ -1,0 +1,14 @@
+#Flask==2.3.3
+#qrcode==7.4.2
+#Pillow==10.0.0
+#gunicorn==21.2.0
+#markupsafe==2.1.3
+#setuptools
+
+# twilio==8.8.0
+requests==2.31.0
+qrcode==7.4.2
+Pillow==10.0.0
+gunicorn==21.2.0
+markupsafe>=2.1.1
+Flask

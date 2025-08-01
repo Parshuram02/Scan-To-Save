@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan-To-Save - QR Code Scanner</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #EFF6FF;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        /* Navigation Styles */
+        .nav {
+            background-color: #2563EB;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .brand-highlight {
+            color: #FDE047;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #FDE047;
+        }
+
+        /* Main content styles */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .scanner-container {
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+
+        .scanner-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .scanner-title {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #1E3A8A;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 32rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        #qr-video {
+            width: 100%;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #status {
+            text-align: center;
+            color: #4B5563;
+            padding: 1rem 0;
+            font-weight: 500;
+        }
+
+        #qr-canvas {
+            display: none;
+        }
+
+        /* Modal styles */
+        #modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        #password-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 28rem;
+            display: none;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1E3A8A;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid #D1D5DB;
+            border-radius: 0.5rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .password-input:focus {
+            border-color: #2563EB;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .button {
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .button-secondary {
+            border: 2px solid #D1D5DB;
+            background-color: transparent;
+            color: #374151;
+        }
+
+        .button-secondary:hover {
+            background-color: #F9FAFB;
+        }
+
+        .button-primary {
+            background-color: #2563EB;
+            color: white;
+            border: none;
+        }
+
+        .button-primary:hover {
+            background-color: #1D4ED8;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #1E3A8A;
+            color: white;
+            margin-top: auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            color: #BFDBFE;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="brand">Scan-To-<span class="brand-highlight">Save</span></div>
+            <a href="{{ url_for('index') }}" class="nav-link">Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <!-- Scanner Content -->
+    <main>
+        <div class="scanner-container">
+            <div class="scanner-card">
+                <h1 class="scanner-title">QR Code Scanner</h1>
+                
+                <!-- Video Container -->
+                <div class="video-container">
+                    <video id="qr-video" playsinline></video>
+                </div>
+
+                <!-- Status Message -->
+                <div id="status"></div>
+
+                <!-- Hidden Canvas -->
+                <canvas id="qr-canvas"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <!-- Password Modal -->
+    <div id="modal-backdrop"></div>
+    <div id="password-modal">
+        <h3 class="modal-title">Enter Password</h3>
+        
+        <div class="input-group">
+            <input 
+                type="password" 
+                id="password-input"
+                class="password-input"
+                placeholder="Enter password"
+            >
+        </div>
+
+        <div class="button-group">
+            <button onclick="closeModal()" class="button button-secondary">
+                Cancel
+            </button>
+            <button onclick="verifyPassword()" class="button button-primary">
+                Submit
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Team CodeX </p>
+        </div>
+    </footer>
+
+    <script>
+        let currentProfileId = null;
+        let video = document.getElementById('qr-video');
+        let canvasElement = document.getElementById('qr-canvas');
+        let canvas = canvasElement.getContext('2d');
+        let scanning = false;
+
+        // Request camera access and start scanning
+        navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "environment" }
+        }).then(function(stream) {
+            video.srcObject = stream;
+            video.setAttribute('playsinline', true); // required for iOS Safari
+            video.play();
+            requestAnimationFrame(tick);
+            document.getElementById('status').textContent = 'Scanning for QR Code...';
+        }).catch(function(err) {
+            document.getElementById('status').textContent = 'Error accessing camera: ' + err.message;
+        });
+
+        function tick() {
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvasElement.height = video.videoHeight;
+                canvasElement.width = video.videoWidth;
+                canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+                let imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+                let code = jsQR(imageData.data, imageData.width, imageData.height, {
+                    inversionAttempts: "dontInvert",
+                });
+                if (code && !scanning) {
+                    scanning = true;
+                    handleQRCode(code.data);
+                }
+            }
+            if (!scanning) {
+                requestAnimationFrame(tick);
+            }
+        }
+
+        function handleQRCode(decodedText) {
+            try {
+                const url = new URL(decodedText);
+                const pathParts = url.pathname.split('/');
+                currentProfileId = pathParts[pathParts.length - 1];
+                document.getElementById('modal-backdrop').style.display = 'block';
+                document.getElementById('password-modal').style.display = 'block';
+                document.getElementById('status').textContent = 'QR Code detected! Please enter password.';
+            } catch (e) {
+                document.getElementById('status').textContent = 'Invalid QR Code. Please try again.';
+                scanning = false;
+                requestAnimationFrame(tick);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal-backdrop').style.display = 'none';
+            document.getElementById('password-modal').style.display = 'none';
+            document.getElementById('password-input').value = '';
+            scanning = false;
+            requestAnimationFrame(tick);
+            document.getElementById('status').textContent = 'Scanning for QR Code...';
+        }
+
+        async function verifyPassword() {
+            const password = document.getElementById('password-input').value;
+            try {
+                const response = await fetch(`/verify_password/${currentProfileId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ password: password })
+                });
+                const data = await response.json();
+                if (data.valid) {
+                    const stream = video.srcObject;
+                    const tracks = stream.getTracks();
+                    tracks.forEach(track => track.stop());
+                    window.location.href = `/edit_profile/${currentProfileId}`;
+                } else {
+                    document.getElementById('status').textContent = 'Invalid password. Please try again.';
+                    closeModal();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('status').textContent = 'Error verifying password. Please try again.';
+                closeModal();
+            }
+        }
+
+        // Handle Enter key in password input
+        document.getElementById('password-input').addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                verifyPassword();
+            }
+        });
+    </script>
+</body>
+</html>
