@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Scan-To-Save  Edit Profile</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="brand">Scan-To<span class="brand-highlight">-Save</span></div>
+            <a href="#" class="nav-link">Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <h1 class="title">Edit Profile</h1>
+            
+            <form action="{{ url_for('edit_profile', profile_id=profile.id) }}" method="POST">
+                <input type="hidden" name="password" value="{{ profile.password }}">
+                
+                <!-- Basic Information Section -->
+                <div class="section">
+                    <h2 class="section-title">Basic Information</h2>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="name">Name</label>
+                            <input type="text" id="name" name="name" value="{{ profile.name }}" required class="form-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" value="{{ profile.phone }}" required class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="blood_group">Blood Group</label>
+                            <select id="blood_group" name="blood_group" required class="form-select">
+                                {% for bg in ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] %}
+                                <option value="{{ bg }}" {% if bg == profile.blood_group %}selected{% endif %}>{{ bg }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="emergency_contact">Emergency Contact</label>
+                            <input type="text" id="emergency_contact" name="emergency_contact" value="{{ profile.emergency_contact }}" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="purpose">Primary Purpose</label>
+                            <select id="purpose" name="purpose" required class="form-select">
+                                <option value="Medical ID" {% if profile.purpose == 'Medical ID' %}selected{% endif %}>Medical ID</option>
+                                <option value="Motorcycle Helmet" {% if profile.purpose == 'Motorcycle Helmet' %}selected{% endif %}>Motorcycle Helmet</option>
+                                <option value="Pet Tag (Dog/Cat)" {% if profile.purpose == 'Pet Tag (Dog/Cat)' %}selected{% endif %}>Pet Tag (Dog/Cat)</option>
+                                <option value="General Identification" {% if profile.purpose == 'General Identification' %}selected{% endif %}>General Identification</option>
+                                <option value="Other" {% if profile.purpose == 'Other' %}selected{% endif %}>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Information Section -->
+                <div class="section">
+                    <h2 class="section-title">Medical Information</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="medical_conditions">Medical Conditions</label>
+                        <textarea id="medical_conditions" name="medical_conditions" class="form-textarea">{{ profile.medical_conditions }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="allergies">Allergies</label>
+                        <textarea id="allergies" name="allergies" class="form-textarea">{{ profile.allergies }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="medications">Current Medications</label>
+                        <textarea id="medications" name="medications" class="form-textarea">{{ profile.medications }}</textarea>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" onclick="history.back()" class="button button-secondary">Cancel</button>
+                    <button type="submit" class="button button-primary">Update Profile</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Team CodeX. </p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan-To-Save -Your QR Code</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="brand">Scan-To<span class="brand-highlight">-Save</span></div>
+            <a href="{{ url_for('index') }}" class="nav-link">Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <h1 class="title">Your QR Code</h1>
+            
+            <div class="qr-container">
+                <img 
+                    src="data:image/png;base64,{{ qr_base64 }}" 
+                    alt="QR Code"
+                    class="qr-code"
+                >
+            </div>
+
+            <a href="{{ url_for('download_qr', profile_id=profile_id) }}" class="button button-primary">
+                Download QR Code
+            </a>
+            
+            <p class="helper-text">
+                Print this QR code or save it to your device for quick access to your emergency information.
+            </p>
+
+            <div class="additional-actions">
+                <h2 class="action-title">What's Next?</h2>
+                <div class="action-buttons">
+                    <button class="button button-secondary">Share QR Code</button>
+                    <button class="button button-secondary">Update Profile</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Team CodeX.</p>
+        </div>
+    </footer>
+</body>
+</html>

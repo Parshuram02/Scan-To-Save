@@ -5,151 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan-To-Save - Create Profile</title>
-    <style>
-        /* Reset and base styles */
-        body {
-            background-color: #f9fafb;
-            min-height: 100vh;
-            margin: 0;
-            font-family: system-ui, -apple-system, sans-serif;
-        }
-
-        /* Navigation Styles */
-        .nav {
-            background-color: #2563EB;
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .brand-highlight {
-            color: #FDE047;
-        }
-
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #FDE047;
-        }
-
-        /* Container styles */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* Form container */
-        .form-container {
-            max-width: 42rem;
-            margin: 2rem auto;
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-        }
-
-        /* Heading */
-        h1 {
-            font-size: 1.875rem;
-            font-weight: bold;
-            color: #1e3a8a;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        /* Form group */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Labels */
-        label {
-            display: block;
-            color: #374151;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Input fields */
-        input[type="text"],
-        input[type="tel"],
-        input[type="password"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 0.5rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            outline: none;
-            transition: all 0.3s;
-            box-sizing: border-box;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        /* Submit button */
-        .submit-button {
-            background-color: #2563eb;
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .submit-button:hover {
-            background-color: #1d4ed8;
-        }
-
-        .button-container {
-            text-align: center;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #1e3a8a;
-            color: white;
-            margin-top: 4rem;
-            padding: 2rem 0;
-        }
-
-        footer p {
-            text-align: center;
-            color: #bfdbfe;
-            margin: 0;
-        }
-    </style>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
@@ -195,6 +52,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="purpose">Primary Purpose</label>
+                    <select id="purpose" name="purpose" required>
+                        <option value="">Select Purpose</option>
+                        <option value="Medical ID">Medical ID</option>
+                        <option value="Motorcycle Helmet">Motorcycle Helmet</option>
+                        <option value="Pet Tag (Dog/Cat)">Pet Tag (Dog/Cat)</option>
+                        <option value="General Identification">General Identification</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="password">Password (for viewing sensitive info)</label>
                     <input type="password" id="password" name="password" required>
                 </div>
@@ -217,6 +86,13 @@
                 <div class="form-group">
                     <label for="medications">Current Medications</label>
                     <textarea id="medications" name="medications" rows="3"></textarea>
+                </div>
+
+                <div class="form-group" style="display: flex; align-items: flex-start; gap: 10px; margin-top: 20px;">
+                    <input type="checkbox" id="consent" name="consent" required style="width: auto; margin-top: 5px;">
+                    <label for="consent" style="font-size: 0.85rem; color: #666; line-height: 1.4;">
+                        I consent to the storage of this medical information for emergency retrieval and understand it will be accessible via QR scan.
+                    </label>
                 </div>
 
                 <div class="button-container">
