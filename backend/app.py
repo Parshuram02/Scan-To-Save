@@ -532,6 +532,69 @@ def send_emergency():
 
 
         
+@app.route('/admin/seed')
+def seed_live_data():
+    import uuid
+    import random
+    from datetime import datetime, timedelta
+    
+    conn = get_db()
+    try:
+        # Clear existing demo data to avoid duplicates if run multiple times
+        # Only clear if you want a fresh start; otherwise, comment these out.
+        conn.execute('DELETE FROM scan_logs')
+        conn.execute('DELETE FROM medical_records')
+        conn.execute('DELETE FROM emergency_contacts')
+        conn.execute('DELETE FROM profiles')
+
+        names = ["Aarav Sharma", "Aditi Rao", "Vihaan Gupta", "Ananya Singh", "Siddharth Verma", 
+                 "Ishani Iyer", "Arjun Reddy", "Meera Nair", "Kabir Malhotra", "Diya Joshi",
+                 "Rohan Das", "Sana Khan", "Aryan Kapoor", "Kyra Sen", "Ishaan Bhat",
+                 "Zoya Ali", "Dev Patel", "Myra Saxena", "Rahul Bose", "Tara Dutta",
+                 "John Doe", "Jane Smith", "Michael Ross", "Rachel Zane", "Harvey Specter",
+                 "Donna Paulsen", "Louis Litt", "Mike Ehrmantraut", "Walter White", "Jesse Pinkman"]
+
+        blood_groups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
+        purposes = ["Medical ID", "Motorcycle Helmet", "Pet Tag (Dog/Cat)", "General Identification", "Other"]
+        
+        conditions_list = ["Hypertension", "Type 2 Diabetes", "Asthma", "Epilepsy", "Cardiac Arrhythmia"]
+        allergies_list = ["Penicillin", "Peanuts", "Latex", "Bee Stings", "Dairy"]
+        medications_list = ["Metformin", "Lisinopril", "Albuterol", "Levothyroxine", "Atorvastatin"]
+
+        for i in range(50):
+            profile_id = uuid.uuid4().hex
+            name = names[i % len(names)]
+            phone = f"+91 {random.randint(70000, 99999)} {random.randint(10000, 99999)}"
+            bg = random.choice(blood_groups)
+            purpose = random.choice(purposes)
+            created_at = (datetime.now() - timedelta(days=random.randint(1, 30))).strftime('%Y-%m-%d %H:%M:%S')
+            
+            conn.execute('''
+                INSERT INTO profiles (id, name, phone, blood_group, template, password, purpose, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (profile_id, name, phone, bg, "template1", "ait", purpose, created_at))
+
+            conn.execute('''
+                INSERT INTO emergency_contacts (profile_id, contact_name, contact_phone, relation)
+                VALUES (?, ?, ?, ?)
+            ''', (profile_id, f"Contact {i}", f"+91 {random.randint(60000, 69999)} 00000", "Family"))
+
+            for _ in range(random.randint(1, 2)):
+                rtype = random.choice(['condition', 'allergy', 'medication'])
+                desc = random.choice(conditions_list if rtype=='condition' else allergies_list if rtype=='allergy' else medications_list)
+                conn.execute('INSERT INTO medical_records (profile_id, record_type, description) VALUES (?, ?, ?)', (profile_id, rtype, desc))
+
+            for _ in range(random.randint(2, 5)):
+                scanned_at = (datetime.strptime(created_at, '%Y-%m-%d %H:%M:%S') + timedelta(hours=random.randint(1, 48))).strftime('%Y-%m-%d %H:%M:%S')
+                ip = f"{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}"
+                conn.execute('INSERT INTO scan_logs (profile_id, scanned_at, ip_address, user_agent) VALUES (?, ?, ?, ?)', 
+                             (profile_id, scanned_at, ip, "Mozilla/5.0 (Mobile Demo User)"))
+
+        conn.commit()
+        return "Database Seeded Successfully! You can now view the Admin Dashboard."
+    finally:
+        conn.close()
+
 if __name__ == '__main__':
     app.run(debug=True)
 
