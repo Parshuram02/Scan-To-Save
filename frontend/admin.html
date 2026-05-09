@@ -48,8 +48,19 @@
             </div>
         </div>
 
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Recent QR Code Scans (Audit Log)</h2>
-        
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Recent QR Code Scans (Audit Log)</h2>
+            <div>
+                <label for="logsLimit" class="text-sm font-medium text-gray-700">Show rows:</label>
+                <select id="logsLimit" onchange="updateTable('logsTableBody', this.value)" class="ml-2 border border-gray-300 rounded-md shadow-sm px-2 py-1 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
+        </div>
         <div class="bg-white rounded-lg shadow overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -61,7 +72,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Device / User Agent</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody id="logsTableBody" class="bg-white divide-y divide-gray-200">
                     {% for log in logs %}
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ log.id }}</td>
@@ -81,7 +92,19 @@
             </table>
         </div>
         
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 mt-12">Registered Profiles</h2>
+        <div class="flex justify-between items-center mb-6 mt-12">
+            <h2 class="text-2xl font-bold text-gray-800">Registered Profiles</h2>
+            <div>
+                <label for="profilesLimit" class="text-sm font-medium text-gray-700">Show rows:</label>
+                <select id="profilesLimit" onchange="updateTable('profilesTableBody', this.value)" class="ml-2 border border-gray-300 rounded-md shadow-sm px-2 py-1 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
+        </div>
         <div class="bg-white rounded-lg shadow overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -91,7 +114,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody id="profilesTableBody" class="bg-white divide-y divide-gray-200">
                     {% for profile in profiles %}
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ profile.id }}</td>
@@ -105,8 +128,11 @@
     </div>
     </div>
     
+    <script id="chart-data" type="application/json">
+        {{ chart_data | safe }}
+    </script>
     <script>
-        const chartData = {{ chart_data | safe }};
+        const chartData = JSON.parse(document.getElementById('chart-data').textContent);
         
         // Render Risk Distribution Chart
         const riskCtx = document.getElementById('riskChart').getContext('2d');
@@ -152,6 +178,29 @@
                     y: { beginAtZero: true, ticks: { stepSize: 1 } }
                 }
             }
+        });
+        // Table pagination logic
+        function updateTable(tbodyId, limit) {
+            const tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+            const rows = tbody.getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                if (limit === 'all' || i < parseInt(limit)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        // Initialize table limits
+        document.addEventListener('DOMContentLoaded', () => {
+            const logsLimit = document.getElementById('logsLimit');
+            if (logsLimit) updateTable('logsTableBody', logsLimit.value);
+            
+            const profilesLimit = document.getElementById('profilesLimit');
+            if (profilesLimit) updateTable('profilesTableBody', profilesLimit.value);
         });
     </script>
 </body>

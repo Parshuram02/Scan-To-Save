@@ -12,3 +12,6 @@ Pillow==10.0.0
 gunicorn==21.2.0
 markupsafe>=2.1.1
 Flask
+scikit-learn
+pandas
+numpy

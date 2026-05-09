@@ -139,49 +139,13 @@ def generate_profile():
     finally:
         conn.close()
 
+from ml_risk_scorer import predict_risk_score
+
 def calculate_risk_score(profile):
-    risk_score = 0
-    
-    # 1. Use Case Baseline
-    purpose = profile.get('purpose', '')
-    if purpose == 'Motorcycle Helmet':
-        risk_score += 3
-    elif purpose == 'Medical ID':
-        risk_score += 2
-    elif purpose == 'Pet Tag (Dog/Cat)':
-        risk_score += 0
-    else:
-        risk_score += 1
-        
-    # 2. Medical Complexity
-    conditions = profile.get('medical_conditions', '')
-    if conditions:
-        risk_score += len([c for c in conditions.split(',') if c.strip()]) * 1
-        
-    medications = profile.get('medications', '')
-    if medications:
-        risk_score += len([m for m in medications.split(',') if m.strip()]) * 1
-        
-    # 3. Severe Allergies
-    allergies = profile.get('allergies', '')
-    if allergies:
-        severe_keywords = ['penicillin', 'peanut', 'latex', 'bee', 'wasp', 'nut']
-        allergy_text = allergies.lower()
-        for keyword in severe_keywords:
-            if keyword in allergy_text:
-                risk_score += 2
-                
-    # 4. Safety Net
-    contacts = profile.get('emergency_contact', '')
-    if not contacts:
-        risk_score += 2
-        
-    if risk_score >= 6:
-        return 'High Risk'
-    elif risk_score >= 3:
-        return 'Medium Risk'
-    else:
-        return 'Low Risk'
+    """
+    Calculates the patient risk score using the trained Machine Learning model.
+    """
+    return predict_risk_score(profile)
 
 @app.route('/profile/<profile_id>')
 def view_profile(profile_id):
