@@ -88,16 +88,39 @@
                     <textarea id="medications" name="medications" rows="3"></textarea>
                 </div>
 
-                <div class="form-group" style="display: flex; align-items: flex-start; gap: 10px; margin-top: 20px;">
-                    <input type="checkbox" id="consent" name="consent" required style="width: auto; margin-top: 5px;">
-                    <label for="consent" style="font-size: 0.85rem; color: #666; line-height: 1.4;">
-                        I consent to the storage of this medical information for emergency retrieval and understand it will be accessible via QR scan.
-                    </label>
+                <!-- GDPR Consent Section -->
+                <div class="gdpr-consent-box">
+                    <div class="gdpr-header">
+                        <span class="gdpr-icon">&#x1F6E1;</span>
+                        <div>
+                            <h3 class="gdpr-title">GDPR Data Consent</h3>
+                            <p class="gdpr-subtitle">General Data Protection Regulation &mdash; EU 2016/679</p>
+                        </div>
+                    </div>
+
+                    <p class="gdpr-body">
+                        Before submitting, please read and acknowledge how your personal and medical data will be used by <strong>Scan-To-Save</strong>:
+                    </p>
+
+                    <ul class="gdpr-list">
+                        <li>&#x2714; Your data is stored securely and used <strong>only</strong> for emergency identification purposes.</li>
+                        <li>&#x2714; Your profile will be <strong>accessible via QR code</strong> to first responders or any person who scans it.</li>
+                        <li>&#x2714; You have the right to <strong>access, rectify, or erase</strong> your data at any time.</li>
+                        <li>&#x2714; No data will be shared with third parties without your explicit consent.</li>
+                        <li>&#x2714; Your data is retained until you choose to delete your profile.</li>
+                    </ul>
+
+                    <div class="gdpr-checkbox-row">
+                        <input type="checkbox" id="gdpr_consent" name="gdpr_consent" required class="gdpr-checkbox">
+                        <label for="gdpr_consent" class="gdpr-checkbox-label">
+                            I have read and understood the above terms. I freely give my consent to store and process my personal and medical data in accordance with the GDPR.
+                        </label>
+                    </div>
                 </div>
 
-                <div class="button-container">
-                    <button type="submit" class="submit-button">
-                        Generate QR Code
+                <div class="button-container" style="margin-top: 1.5rem;">
+                    <button type="submit" class="submit-button gdpr-submit-btn" id="gdpr-submit">
+                        &#x1F512;&nbsp; I Agree &amp; Generate QR Code
                     </button>
                 </div>
             </form>
